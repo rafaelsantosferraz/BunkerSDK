@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Bunker</string>
+    <string name="tx_document_photo">Verification Process</string>
+    <string name="bt_ready">I\'m Ready</string>
+    <string name="bt_confirm">Confirm, finalize.</string>
+    <string name="tx_self_name">%s,\ntake a Face Photo</string>
+    <string name="tx_result_name">Nice %s!</string>
+    <string name="result_name">Name</string>
+    <string name="result_cpf">CPF</string>
+    <string name="result_cnh">CNH</string>
+    <string name="result_cnh_body">Number: %s\nExpiration: %s\nCategory: %s</string>
+    <string name="tx_verification_complete">You’ve been verified!</string>
+    <string name="tx_result_body">Confirm your details below:</string>
+    <string name="tx_finish">Finish!</string>
+    <string name="tx_start_bt">Start Verification</string>
+    <string name="result_invalid">Try again.</string>
+    <string name="tx_body_1">First, we’ll have you take a photo of your document.\nThen, you’ll take a selfie to verify your identity.</string>
+
+</resources>
+
+
+
+
+
+
+
+
+
+    
+
+
+

@@ -1,0 +1,26 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="bunker.snowmanlabs.com.bunker">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:largeHeap="true">
+        <activity android:name=".ui.ScanProcessActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/BunkerTheme"/>
+        <activity android:name=".ui.StartActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeFullScreen">
+        </activity>
+
+        <!--<meta-data-->
+            <!--android:name="io.fabric.ApiKey"-->
+            <!--android:value="0ca533effae1fb20f5d688331cb5cc84313a43a0" />-->
+
+    </application>
+</manifest>
