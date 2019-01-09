@@ -1,9 +1,8 @@
 package testmodule.snowmanlabs.com.testmodule
 
-import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import bunker.snowmanlabs.com.bunker.ui.StartActivity
+import android.support.v7.app.AppCompatActivity
+import bunker.snowmanlabs.com.bunker.ui.Bunker
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,6 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        startActivity(Intent(this, StartActivity::class.java))
+        Bunker.startValidation(this)
     }
 }
