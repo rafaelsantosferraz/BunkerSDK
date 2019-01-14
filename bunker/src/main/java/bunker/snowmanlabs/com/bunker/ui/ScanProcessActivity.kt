@@ -15,6 +15,13 @@ import bunker.snowmanlabs.com.bunker.data.SelfResult
 import bunker.snowmanlabs.com.bunker.ui.base.BaseViewModelActivity
 import com.adityaarora.liveedgedetection.constants.ScanConstants
 import com.adityaarora.liveedgedetection.util.ScanUtils
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.firebase.FirebaseApp
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.face.FirebaseVisionFace
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetector
+import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions
 import kotlinx.android.synthetic.main.activity_scan_process.*
 import java.io.ByteArrayOutputStream
 import java.io.FileInputStream
@@ -26,6 +33,7 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
     private lateinit var currentFragment: WorkingListener
     private var cnhResult: CnhResult? = null
     private var selfResult: SelfResult? = null
+    lateinit var detector: FirebaseVisionFaceDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,19 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
         initScanSteps()
         initObservers()
         initCommandObservers()
+
+        FirebaseApp.initializeApp(applicationContext)
+
+        val highAccuracyOpts = FirebaseVisionFaceDetectorOptions.Builder()
+            .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
+            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
+            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
+            .build()
+
+
+
+        detector = FirebaseVision.getInstance()
+            .getVisionFaceDetector(highAccuracyOpts)
 
     }
 
@@ -185,6 +206,46 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
                 currentFragment.requestingService(baseBitmap)
                 viewModel.sendSelfPicture(convertImageToBase64(filePath))
             }
+        }
+
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            val bitmap = data?.extras?.get("data") as Bitmap
+//            val baos = ByteArrayOutputStream()
+//            bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, baos) //bm is the bitmap object
+//            val byteArrayImage = baos.toByteArray()
+//
+//            viewModel.sendSelfPicture( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
+
+
+            val image = FirebaseVisionImage.fromBitmap(bitmap)
+            detector.detectInImage(image)
+                .addOnSuccessListener { faces ->
+                    for (face in faces) {
+
+                        if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
+                            val smileProb = face.smilingProbability
+                            Toast.makeText(this, smileProb.toString(), Toast.LENGTH_LONG).show()
+
+                            val baos = ByteArrayOutputStream()
+                            bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, baos) //bm is the bitmap object
+                            val byteArrayImage = baos.toByteArray()
+
+                            viewModel.sendSelfPicture( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
+                        }
+
+                        if (face.rightEyeOpenProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
+                            val rightEyeOpenProb = face.rightEyeOpenProbability
+                        }
+
+                        if (face.leftEyeOpenProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
+                            val leftEyeOpenProb = face.leftEyeOpenProbability
+                        }
+                    }
+                }
+                .addOnFailureListener(object : OnFailureListener {
+                        override fun onFailure(e: Exception) {
+                        }
+                })
         }
     }
 

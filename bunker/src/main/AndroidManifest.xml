@@ -18,6 +18,10 @@
             android:theme="@style/AppThemeFullScreen">
         </activity>
 
+        <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="face" />
+
         <!--<meta-data-->
             <!--android:name="io.fabric.ApiKey"-->
             <!--android:value="0ca533effae1fb20f5d688331cb5cc84313a43a0" />-->

@@ -5,5 +5,5 @@ import java.io.Serializable
 
 data class CnhData(@SerializedName("result")
                    val result: Result,
-                   @SerializedName("Classifier")
+                   @SerializedName("classifier")
                    val classifier: Classifier): Serializable

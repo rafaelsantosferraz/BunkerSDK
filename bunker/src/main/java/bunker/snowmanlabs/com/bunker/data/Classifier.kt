@@ -5,5 +5,5 @@ import java.io.Serializable
 
 data class Classifier(@SerializedName("Score")
                       val score: String = "",
-                      @SerializedName("isValid")
+                      @SerializedName("IsValid")
                       val isValid: String = ""): Serializable

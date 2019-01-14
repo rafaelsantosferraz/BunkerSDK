@@ -8,6 +8,7 @@ import bunker.snowmanlabs.com.bunker.di.qualifiers.IO
 import bunker.snowmanlabs.com.bunker.di.qualifiers.UI
 import bunker.snowmanlabs.com.bunker.ui.base.BaseViewModel
 import io.reactivex.Scheduler
+import org.intellij.lang.annotations.Identifier
 import java.security.InvalidKeyException
 import java.util.*
 import javax.inject.Inject
@@ -37,7 +38,7 @@ class ScanProcessViewModel @Inject constructor(
     }
 
     fun handleResult(it: CnhResult) {
-        if(it.data.classifier.isValid == "True"){
+        if(it.data.classifier.isValid == "true"){
             newState(currentState().copy(loading = false, error = null))
             command.value = Command.CNHResult(it)
         }else{
@@ -56,7 +57,7 @@ class ScanProcessViewModel @Inject constructor(
     fun sendSelfPicture(convertImageToBase64: String?) {
         newState(currentState().copy(loading = true, error = null))
         val sessionId = getSessionId()
-        val request = SelfProcessRequest(sessionID = sessionId!!, codedImage = convertImageToBase64!!, faceRec = FaceRec.modeSelf())
+        val request = ProcessRequest(sessionId = sessionId!!, codedImage = convertImageToBase64!!)
         restApi.sendFacePicture(request)
                 .subscribeOn(io)
                 .observeOn(ui)
@@ -68,7 +69,7 @@ class ScanProcessViewModel @Inject constructor(
     }
 
     fun handleSelfResult(it: SelfResult) {
-        if (it.data.isValid == "True"){
+        if (it.data.isValid == "true"){
             newState(currentState().copy(loading = false, error = null))
             command.value = Command.SELFResult(it)
         }else{

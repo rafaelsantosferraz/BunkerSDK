@@ -3,18 +3,20 @@ package bunker.snowmanlabs.com.bunker.ui
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import bunker.snowmanlabs.com.bunker.R
 import bunker.snowmanlabs.com.bunker.di.Injectable
 import bunker.snowmanlabs.com.bunker.ui.base.BaseViewModelFragment
-import com.adityaarora.liveedgedetection.activity.CameraActivity
-import com.adityaarora.liveedgedetection.activity.ScanActivity
-import com.adityaarora.liveedgedetection.activity.SelfScanActivity
 import kotlinx.android.synthetic.main.fragment_steps.*
 
 class ScanSelfFragment : BaseViewModelFragment<ScanCnhViewModel>(), Injectable, WorkingListener {
+
+
+    val REQUEST_IMAGE_CAPTURE = 1
+
     override fun onError() {
         bt_ready.isEnabled = true
     }
@@ -39,6 +41,9 @@ class ScanSelfFragment : BaseViewModelFragment<ScanCnhViewModel>(), Injectable, 
             fragment.arguments = args
             return fragment
         }
+
+
+        val REQUEST_IMAGE_CAPTURE = 1
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,10 +75,12 @@ class ScanSelfFragment : BaseViewModelFragment<ScanCnhViewModel>(), Injectable, 
         iv_scan.setImageDrawable(context!!.getDrawable(R.drawable.ic_face))
 
         bt_ready.setOnClickListener {
-            startActivityForResult(CameraActivity.newIntent(firstname, activity), 200)
+            //startActivityForResult(CameraActivity.newIntent(firstname, activity), 200)
+
+            activity!!.startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), 1)
         }
 
         //start selfie capture
-        startActivityForResult(CameraActivity.newIntent(firstname, activity), 200)
+        //startActivityForResult(CameraActivity.newIntent(firstname, activity), 200)
     }
 }

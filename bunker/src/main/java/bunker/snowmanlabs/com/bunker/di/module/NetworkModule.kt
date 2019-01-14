@@ -17,9 +17,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-    companion object {
-        const val HOST = "http://checkify.extractify.ai/api/"
-    }
+
 
     @Provides
     @Singleton
@@ -45,7 +43,7 @@ class NetworkModule {
     @Singleton
     fun provideRestApi(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): RestApi {
         return Retrofit.Builder()
-                .baseUrl(HOST)
+                .baseUrl(RestApi.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(converterFactory)
