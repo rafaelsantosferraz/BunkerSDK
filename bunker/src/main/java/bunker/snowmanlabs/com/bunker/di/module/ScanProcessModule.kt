@@ -1,10 +1,12 @@
 package bunker.snowmanlabs.com.bunker.di.module
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import bunker.snowmanlabs.com.bunker.di.ViewModelKey
 import bunker.snowmanlabs.com.bunker.di.scope.ActivityScope
 import bunker.snowmanlabs.com.bunker.di.scope.FragmentScope
 import bunker.snowmanlabs.com.bunker.ui.*
+import bunker.snowmanlabs.com.bunker.ui.self.SelfFragment
+import bunker.snowmanlabs.com.bunker.ui.self.SelfViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -29,6 +31,9 @@ abstract class ScanProcessModule {
     @ContributesAndroidInjector
     abstract fun scanSelfFragment(): ScanSelfFragment
 
+
+
+
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun scanResultFragment(): ResultFragment
@@ -37,9 +42,22 @@ abstract class ScanProcessModule {
     @ContributesAndroidInjector
     abstract fun verificationFragmentFragment(): VerificationCompleteFragment
 
+
     @Binds
     @IntoMap
     @ViewModelKey(ScanCnhViewModel::class)
     abstract fun scanCnhViewModel(viewModel: ScanCnhViewModel): ViewModel
+
+
+
+    // Self
+    @Binds
+    @IntoMap
+    @ViewModelKey(SelfViewModel::class)
+    abstract fun selfViewModel(viewModel: SelfViewModel): ViewModel
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun selfFragment(): SelfFragment
 
 }

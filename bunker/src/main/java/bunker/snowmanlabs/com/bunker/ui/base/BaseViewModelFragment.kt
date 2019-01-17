@@ -1,8 +1,8 @@
 package bunker.snowmanlabs.com.bunker.ui.base
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
 import javax.inject.Inject
@@ -16,13 +16,13 @@ abstract class BaseViewModelFragment<VM : ViewModel> : BaseFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initViewModel()
     }
 
-    private fun initViewModel() {
+    open fun initViewModel() {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModel().java)
     }
 

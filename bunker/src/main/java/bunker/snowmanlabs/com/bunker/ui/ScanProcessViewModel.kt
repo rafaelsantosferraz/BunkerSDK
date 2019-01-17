@@ -21,7 +21,9 @@ class ScanProcessViewModel @Inject constructor(
 ) : BaseViewModel<ScanProcessViewModel.State, ScanProcessViewModel.Command>() {
     override fun initialState() = State()
 
-    var mSessionId: String? = null
+    companion object {
+        var mSessionId: String? = null
+    }
 
     fun sendCnhPicture(convertImageToBase64: String?) {
         newState(currentState().copy(loading = true, error = null))

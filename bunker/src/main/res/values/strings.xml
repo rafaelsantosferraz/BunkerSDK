@@ -14,7 +14,12 @@
     <string name="tx_finish">Finish!</string>
     <string name="tx_start_bt">Start Verification</string>
     <string name="result_invalid">Try again.</string>
-    <string name="tx_body_1">First, we’ll have you take a photo of your document.\nThen, you’ll take a selfie to verify your identity.</string>
+    <string name="tx_body_1">First, we’ll have you take a photo of your document.\nThen, you’ll take a selfie to verify
+        your identity.
+    </string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 

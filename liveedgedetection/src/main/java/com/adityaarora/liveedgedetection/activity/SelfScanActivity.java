@@ -2,7 +2,6 @@ package com.adityaarora.liveedgedetection.activity;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -23,32 +22,25 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.transition.TransitionManager;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Gravity;
-import android.view.OrientationListener;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adityaarora.liveedgedetection.R;
 import com.adityaarora.liveedgedetection.constants.ScanConstants;
@@ -57,9 +49,7 @@ import com.adityaarora.liveedgedetection.interfaces.IScanner;
 import com.adityaarora.liveedgedetection.util.ScanUtils;
 import com.adityaarora.liveedgedetection.view.PolygonPoints;
 import com.adityaarora.liveedgedetection.view.PolygonView;
-import com.adityaarora.liveedgedetection.view.ProgressDialogFragment;
 import com.adityaarora.liveedgedetection.view.Quadrilateral;
-import com.adityaarora.liveedgedetection.view.ScanCanvasView;
 
 import org.opencv.android.Utils;
 import org.opencv.core.CvType;
@@ -68,7 +58,6 @@ import org.opencv.core.Point;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -79,8 +68,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
-import static android.view.View.GONE;
 
 /**
  * This class initiates camera and detects edges on live view

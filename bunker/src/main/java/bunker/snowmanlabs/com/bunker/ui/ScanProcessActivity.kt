@@ -1,11 +1,11 @@
 package bunker.snowmanlabs.com.bunker.ui
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
@@ -13,6 +13,7 @@ import bunker.snowmanlabs.com.bunker.R
 import bunker.snowmanlabs.com.bunker.data.CnhResult
 import bunker.snowmanlabs.com.bunker.data.SelfResult
 import bunker.snowmanlabs.com.bunker.ui.base.BaseViewModelActivity
+import bunker.snowmanlabs.com.bunker.ui.self.SelfFragment
 import com.adityaarora.liveedgedetection.constants.ScanConstants
 import com.adityaarora.liveedgedetection.util.ScanUtils
 import com.google.android.gms.tasks.OnFailureListener
@@ -70,7 +71,7 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
         })
     }
 
-    private fun handleSelfResult(selfResult: SelfResult?) {
+    fun handleSelfResult(selfResult: SelfResult?) {
         this.selfResult = selfResult
         if (selfResult == null) {
             currentFragment.onError()
@@ -123,11 +124,11 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
         when(currentFragment){
             is ScanCnhFragment -> {
                 cnhResult?.let {
-                    replaceFragment(ScanSelfFragment.newInstance(it.data.result.nome),
-                            ScanSelfFragment::class.simpleName!!)
+                    replaceFragment(SelfFragment.newInstance(),
+                            SelfFragment::class.simpleName!!)
                 }
             }
-            is ScanSelfFragment -> {
+            is SelfFragment -> {
                 cnhResult?.let {
                     replaceFragment(ResultFragment.newInstance(it),
                             ResultFragment::class.simpleName!!)
@@ -148,13 +149,15 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
         replaceFragment(ScanCnhFragment.newInstance(),
                 ScanCnhFragment::class.simpleName!!)
 
+//        replaceFragment(SelfFragment.newInstance(),
+//            SelfFragment::class.simpleName!!)
+
 //        replaceFragment(ScanSelfFragment.newInstance("teste"),
 //                ScanSelfFragment::class.simpleName!!)
     }
 
-    private fun replaceFragment(fragment: Fragment, tag: String) {
+    private fun replaceFragment(fragment: androidx.fragment.app.Fragment, tag: String) {
 //        currentFragment = fragment as WorkingListener
-
         supportFragmentManager.beginTransaction()
                 .replace(R.id.main_container, fragment, tag)
                 .addToBackStack(tag)

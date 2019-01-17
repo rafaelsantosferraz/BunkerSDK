@@ -1,6 +1,6 @@
 package bunker.snowmanlabs.com.bunker.di.module
 
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider
 import bunker.snowmanlabs.com.bunker.ui.viewmodel.ViewModelFactory
 import dagger.Binds
 import dagger.Module

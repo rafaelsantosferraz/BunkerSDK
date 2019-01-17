@@ -85,22 +85,22 @@
             </LinearLayout>
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/capture_hint_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:visibility="visible">
+        <!--<FrameLayout-->
+                <!--android:id="@+id/capture_hint_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="556dp"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:orientation="vertical"-->
+                <!--android:visibility="visible">-->
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginBottom="36dp"
-                android:layout_marginEnd="10dp"
-                app:srcCompat="@drawable/ic_cam" />
-        </FrameLayout>
+            <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginStart="10dp"-->
+                    <!--android:layout_marginBottom="36dp"-->
+                    <!--android:layout_marginEnd="10dp"-->
+                    <!--app:srcCompat="@drawable/ic_cam"/>-->
+        <!--</FrameLayout>-->
 
         <LinearLayout
             android:id="@+id/capture_container"

@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import bunker.snowmanlabs.com.bunker.R
 import bunker.snowmanlabs.com.bunker.di.Injectable
 import bunker.snowmanlabs.com.bunker.ui.base.BaseViewModelFragment
+import com.adityaarora.liveedgedetection.activity.CameraActivity
 import kotlinx.android.synthetic.main.fragment_steps.*
 
 class ScanSelfFragment : BaseViewModelFragment<ScanCnhViewModel>(), Injectable, WorkingListener {

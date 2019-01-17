@@ -11,10 +11,10 @@ import android.graphics.PointF;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,7 +24,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +36,6 @@ import com.adityaarora.liveedgedetection.view.PolygonPoints;
 import com.adityaarora.liveedgedetection.view.PolygonView;
 import com.adityaarora.liveedgedetection.view.ProgressDialogFragment;
 import com.adityaarora.liveedgedetection.view.Quadrilateral;
-import com.adityaarora.liveedgedetection.view.ScanCanvasView;
 import com.adityaarora.liveedgedetection.view.ScanSurfaceView;
 
 import org.opencv.android.Utils;
@@ -50,8 +48,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
-
-import static android.view.View.GONE;
 
 /**
  * This class initiates camera and detects edges on live view
@@ -205,7 +201,7 @@ public class ScanActivity extends AppCompatActivity implements IScanner, View.On
     @Override
     public void displayHint(ScanHint scanHint) {
 //        captureHintLayout.setVisibility(View.VISIBLE);
-        setCaptureButton(false);
+        setCaptureButton(true);
         switch (scanHint) {
             case MOVE_CLOSER:
                 captureHintText.setText(getResources().getString(R.string.move_closer));
@@ -225,13 +221,13 @@ public class ScanActivity extends AppCompatActivity implements IScanner, View.On
             case FIND_RECT:
                 captureHintText.setText(getResources().getString(R.string.finding_rect));
                 captureHintText.setTextColor(getResources().getColor(R.color.white));
-                setCaptureButton(true);
+//                setCaptureButton(true);
 //                captureHintLayout.setBackground(getResources().getDrawable(R.drawable.hint_white));
                 break;
             case CAPTURING_IMAGE:
                 captureHintText.setText(getResources().getString(R.string.hold_still));
                 captureHintText.setTextColor(getResources().getColor(R.color.green));
-                setCaptureButton(true);
+//                setCaptureButton(true);
 //                captureHintLayout.setBackground(getResources().getDrawable(R.drawable.hint_green));
                 break;
             case NO_MESSAGE:

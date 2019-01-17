@@ -1,9 +1,9 @@
 package bunker.snowmanlabs.com.bunker.ui.base
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProviders
 import javax.inject.Inject
 import kotlin.reflect.KClass
 

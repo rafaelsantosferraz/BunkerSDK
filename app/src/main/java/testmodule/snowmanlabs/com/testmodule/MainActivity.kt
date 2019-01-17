@@ -1,8 +1,8 @@
 package testmodule.snowmanlabs.com.testmodule
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import bunker.snowmanlabs.com.bunker.ui.Bunker
+import androidx.appcompat.app.AppCompatActivity
+import bunker.snowmanlabs.com.bunker.Bunker
 
 class MainActivity : AppCompatActivity() {
 
