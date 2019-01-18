@@ -39,16 +39,11 @@ class FaceDetector {
                 for (face in faces) {
                     if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                         val smileProb = face.smilingProbability
-                        //Log.d(TAG, smileProb.toString() + "of smile prob")
-                        //                            val baos = ByteArrayOutputStream()
-                        //                            bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, baos) //bm is the bitmap object
-                        //                            val byteArrayImage = baos.toByteArray()
-
-                        //viewModel.sendSelfPicture( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
                     }
 
                     if (face.rightEyeOpenProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                         val rightEyeOpenProb = face.rightEyeOpenProbability
+                        Log.d(TAG, rightEyeOpenProb.toString() + " right eye prob")
                         if (rightEyeOpenProb < 0.4) {
                             SelfFragment.isValid = true
                             Log.d(TAG, rightEyeOpenProb.toString() + " right close")
@@ -57,6 +52,7 @@ class FaceDetector {
 
                     if (face.leftEyeOpenProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
                         val leftEyeOpenProb = face.leftEyeOpenProbability
+                        Log.d(TAG, leftEyeOpenProb.toString() + " left eye prob")
                         if (leftEyeOpenProb < 0.4) {
                             SelfFragment.isValid = true
                             Log.d(TAG, leftEyeOpenProb.toString() + " left close")
@@ -69,7 +65,6 @@ class FaceDetector {
                 }
             })
     }
-
 
 
 

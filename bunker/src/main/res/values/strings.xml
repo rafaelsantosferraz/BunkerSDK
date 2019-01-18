@@ -7,8 +7,9 @@
     <string name="tx_result_name">Nice %s!</string>
     <string name="result_name">Name</string>
     <string name="result_cpf">CPF</string>
+    <string name="result_RG">RG</string>
     <string name="result_cnh">CNH</string>
-    <string name="result_cnh_body">Number: %s\nExpiration: %s\nCategory: %s</string>
+    <string name="result_cnh_body">Number: %s\nExpiration: %s\nCategory: %s\nData de Nascimento: %s\nMãe: %s\nPai: %s</string>
     <string name="tx_verification_complete">You’ve been verified!</string>
     <string name="tx_result_body">Confirm your details below:</string>
     <string name="tx_finish">Finish!</string>
@@ -22,7 +23,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
-
 
 
 

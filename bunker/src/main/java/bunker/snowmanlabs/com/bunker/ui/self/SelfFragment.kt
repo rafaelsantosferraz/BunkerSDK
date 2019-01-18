@@ -53,15 +53,17 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
         override fun onFinish() {
             self_fragment_timer.setText("done!")
         }
-
     }
-    private val faceDetector = FaceDetector()
+
+    private var faceDetector: FaceDetector? = null
     private var frameProcessor =
         FrameProcessor {
             if(it.size != null && isButtonHold) {
-                faceDetector.process(it)
+                faceDetector?.process(it)
             }
         }
+    private var down: Long = 0
+    private var up: Long = 0
 
 
 
@@ -96,9 +98,13 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
     }
 
     override fun onError() {
+        Toast.makeText(activity!!, "Face not recognized. Try Again", Toast.LENGTH_LONG).show()
     }
 
     override fun stoppingService() {
+        Log.d(TAG, "stoppingService")
+        self_fragment_camera_view.clearFrameProcessors()
+
     }
     // endregion
 
@@ -133,40 +139,18 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
     }
 
     private fun setupListeners(){
-        var down: Long = 0
-        var up: Long = 0
         self_fragment_button.setOnTouchListener { view, motionEvent ->
             when (motionEvent?.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    Log.d(TAG, "Down")
-                    isButtonHold = true
-                    self_fragment_camera_view.addFrameProcessor(frameProcessor)
-                    down = System.currentTimeMillis()
-                    timer.start()
-
-                }
-                MotionEvent.ACTION_UP -> {
-                    Log.d(TAG, "Up")
-                    isButtonHold = false
-                    timer.cancel()
-                    self_fragment_camera_view.clearFrameProcessors()
-                    up = System.currentTimeMillis()
-                    if ((up - down) > 9000) {
-                        Log.d(TAG, "More then 10 seconds")
-                        if(isValid) {
-                            self_fragment_camera_view.takePictureSnapshot()
-                            Log.d(TAG, "isValid")
-                            isValid = false
-                        } else {
-                            Toast.makeText(activity!!, "Please try one more time", Toast.LENGTH_LONG).show()
-                        }
-                    } else {
-                        isValid = false
-                    }
+                    onButtonDown()
                     true
                 }
+                MotionEvent.ACTION_UP -> {
+                    onButtonUp()
+                    true
+                }
+                else -> false
             }
-            false
         }
 
         self_fragment_camera_view.addCameraListener(object : CameraListener() {
@@ -198,5 +182,38 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
         } else {
             self_fragment_loading.visibility = View.GONE
         }
+    }
+
+    private fun onButtonDown(){
+        Log.d(TAG, "Down")
+        isButtonHold = true
+        timer.start()
+        faceDetector = FaceDetector()
+        self_fragment_camera_view.addFrameProcessor(frameProcessor)
+
+        down = System.currentTimeMillis()
+    }
+
+    private fun onButtonUp(){
+        Log.d(TAG, "Up")
+        isButtonHold = false
+        timer.cancel()
+        faceDetector = null
+        self_fragment_timer.text = "10"
+        self_fragment_camera_view.removeFrameProcessor(frameProcessor)
+
+        up = System.currentTimeMillis()
+
+        if ((up - down) > 9000) {
+            Log.d(TAG, "More then 10 seconds")
+            if (isValid) {
+                self_fragment_camera_view.takePictureSnapshot()
+                Log.d(TAG, "isValid")
+            } else {
+                Toast.makeText(activity!!,"Move your eyes and blink naturally.", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        isValid = false
     }
 }

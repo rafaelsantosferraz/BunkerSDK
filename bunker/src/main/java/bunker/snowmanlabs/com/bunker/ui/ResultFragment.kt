@@ -82,6 +82,16 @@ class ResultFragment : BaseViewModelFragment<ScanCnhViewModel>(), Injectable, Wo
         result_container.visibility = View.VISIBLE
         tv_result_name.text = cnhData.nome
         tv_result_cpf.text = cnhData.cpf
-        tv_result_cnh.text = String.format(getString(R.string.result_cnh_body), cnhData.registro, cnhData.validade, cnhData.categoria)
+        tv_result_rg.text = cnhData.rg
+        tv_result_cnh.text = String.format(getString(R.string.result_cnh_body),
+            cnhData.registro,
+            cnhData.validade,
+            cnhData.categoria,
+            cnhData.dataNascimento,
+            cnhData.nomeMae,
+            cnhData.nomePai)
+
+
+
     }
 }

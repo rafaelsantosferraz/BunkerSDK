@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import bunker.snowmanlabs.com.bunker.R
 import bunker.snowmanlabs.com.bunker.data.CnhResult
 import bunker.snowmanlabs.com.bunker.data.SelfResult
@@ -45,19 +46,6 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
         initScanSteps()
         initObservers()
         initCommandObservers()
-
-        FirebaseApp.initializeApp(applicationContext)
-
-        val highAccuracyOpts = FirebaseVisionFaceDetectorOptions.Builder()
-            .setPerformanceMode(FirebaseVisionFaceDetectorOptions.ACCURATE)
-            .setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-            .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
-            .build()
-
-
-
-        detector = FirebaseVision.getInstance()
-            .getVisionFaceDetector(highAccuracyOpts)
 
     }
 
@@ -99,11 +87,16 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
 
     private fun handleError(error: Throwable) {
         currentFragment.onError()
-        if (error is InvalidKeyException){
-            showError(InvalidKeyException(getString(R.string.result_invalid)))
-        }else{
-            showError(Throwable(getString(R.string.result_invalid)))
+        when(currentFragment){
+            is ScanCnhFragment -> {
+                showError(Throwable("CNH not recognized"))
+            }
         }
+//        if (error is InvalidKeyException){
+//            showError(InvalidKeyException(getString(R.string.result_invalid)))
+//        }else{
+//            showError(Throwable(getString(R.string.result_invalid)))
+//        }
     }
 
     private fun showError(error: Throwable) {
@@ -130,8 +123,10 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
             }
             is SelfFragment -> {
                 cnhResult?.let {
+                    supportFragmentManager.popBackStack (SelfFragment::class.simpleName!!, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     replaceFragment(ResultFragment.newInstance(it),
                             ResultFragment::class.simpleName!!)
+
                 }
             }
         }
@@ -157,11 +152,15 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
     }
 
     private fun replaceFragment(fragment: androidx.fragment.app.Fragment, tag: String) {
-//        currentFragment = fragment as WorkingListener
+//       currentFragment = fragment as WorkingListener
+
         supportFragmentManager.beginTransaction()
                 .replace(R.id.main_container, fragment, tag)
                 .addToBackStack(tag)
                 .commit()
+
+
+
     }
 
     private fun setOnBackstackChangedListener() {
@@ -213,42 +212,12 @@ class ScanProcessActivity : BaseViewModelActivity<ScanProcessViewModel>() {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
             val bitmap = data?.extras?.get("data") as Bitmap
-//            val baos = ByteArrayOutputStream()
-//            bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, baos) //bm is the bitmap object
-//            val byteArrayImage = baos.toByteArray()
-//
-//            viewModel.sendSelfPicture( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
+            val baos = ByteArrayOutputStream()
+            bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, baos) //bm is the bitmap object
+            val byteArrayImage = baos.toByteArray()
 
+            viewModel.sendSelfPicture( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
 
-            val image = FirebaseVisionImage.fromBitmap(bitmap)
-            detector.detectInImage(image)
-                .addOnSuccessListener { faces ->
-                    for (face in faces) {
-
-                        if (face.smilingProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
-                            val smileProb = face.smilingProbability
-                            Toast.makeText(this, smileProb.toString(), Toast.LENGTH_LONG).show()
-
-                            val baos = ByteArrayOutputStream()
-                            bitmap!!.compress(Bitmap.CompressFormat.PNG, 100, baos) //bm is the bitmap object
-                            val byteArrayImage = baos.toByteArray()
-
-                            viewModel.sendSelfPicture( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
-                        }
-
-                        if (face.rightEyeOpenProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
-                            val rightEyeOpenProb = face.rightEyeOpenProbability
-                        }
-
-                        if (face.leftEyeOpenProbability != FirebaseVisionFace.UNCOMPUTED_PROBABILITY) {
-                            val leftEyeOpenProb = face.leftEyeOpenProbability
-                        }
-                    }
-                }
-                .addOnFailureListener(object : OnFailureListener {
-                        override fun onFailure(e: Exception) {
-                        }
-                })
         }
     }
 
