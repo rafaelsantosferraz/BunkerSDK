@@ -14,7 +14,7 @@
         android:gravity="bottom"
         app:layout_constraintTop_toTopOf="parent">
 
-        <bunker.snowmanlabs.com.bunker.ui.custom.BarStepIndicator
+        <bunker.snowmanlabs.com.bunker.presentation.ui.custom.BarStepIndicator
             android:id="@+id/step_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,7 +1,7 @@
 package bunker.snowmanlabs.com.bunker.di.module
 
 import com.google.gson.Gson
-import bunker.snowmanlabs.com.bunker.data.api.RestApi
+import bunker.snowmanlabs.com.bunker.presentation.api.RestApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

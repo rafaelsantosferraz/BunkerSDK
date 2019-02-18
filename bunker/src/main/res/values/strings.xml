@@ -19,8 +19,17 @@
         your identity.
     </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- BASIC -->
+    <string name="ok">OK</string>
+    <string name="cancel">CANCELAR</string>
+    <string name="required_field">Campo obrigatorio</string>
+
+    <!-- ERROR -->
+    <string name="error_no_internet">Você está off-line</string>
+    <string name="error_bad_connection">Problemas de conexão</string>
+    <string name="error_session_expired">Sessão expirada</string>
+    <string name="error_precon_failed">Dados incorretos</string>
+    <string name="error_unknown">Ocorreu um error</string>
 
 </resources>
 

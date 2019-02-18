@@ -1,12 +1,11 @@
 package bunker.snowmanlabs.com.bunker
 
-import bunker.snowmanlabs.com.bunker.data.api.RestApi
+import bunker.snowmanlabs.com.bunker.presentation.api.RestApi
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.Test
 
-import org.junit.Assert.*
 import org.junit.BeforeClass
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

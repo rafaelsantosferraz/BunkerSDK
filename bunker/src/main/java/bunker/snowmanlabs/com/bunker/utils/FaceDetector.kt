@@ -1,7 +1,7 @@
 package bunker.snowmanlabs.com.bunker.utils
 
 import android.util.Log
-import bunker.snowmanlabs.com.bunker.ui.self.SelfFragment
+import bunker.snowmanlabs.com.bunker.presentation.ui.self.SelfFragment
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage

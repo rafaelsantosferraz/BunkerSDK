@@ -11,12 +11,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:largeHeap="true">
-        <activity android:name=".ui.ScanProcessActivity"
+
+        <activity android:name="bunker.snowmanlabs.com.bunker.presentation.ui.ScanProcessActivity"
             android:screenOrientation="portrait"
             android:theme="@style/BunkerTheme"/>
-        <activity android:name=".ui.StartActivity"
+
+        <activity
+            android:name="bunker.snowmanlabs.com.bunker.presentation.ui.main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeFullScreen">
+        </activity>
+
+        <activity
+                android:name="bunker.snowmanlabs.com.bunker.presentation.ui.StartActivity"
+                android:screenOrientation="portrait"
+                android:theme="@style/AppThemeFullScreen">
         </activity>
 
         <meta-data

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/navigation_graph" app:startDestination="@id/mainFragment">
+
+    <fragment android:id="@+id/mainFragment"
+              android:name="bunker.snowmanlabs.com.bunker.presentation.ui.main.MainFragment"
+              android:label="MainFragment">
+        <action android:id="@+id/action_mainFragment_to_resultFragment" app:destination="@id/resultFragment"/>
+    </fragment>
+    <fragment android:id="@+id/resultFragment"
+              android:name="bunker.snowmanlabs.com.bunker.presentation.ui.result.ResultFragment"
+              android:label="ResultFragment">
+        <argument android:name="dataNascimento" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="rg" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="nomeMae" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="categoria" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="cpf" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="nome" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="nomePai" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="primeiraHabilitacao" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="registro" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="validade" app:argType="string" android:defaultValue='" "'/>
+    </fragment>
+</navigation>
