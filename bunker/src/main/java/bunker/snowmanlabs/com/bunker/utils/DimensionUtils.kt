@@ -1,4 +1,4 @@
-package bunker.snowmanlabs.com.bunker.presentation.ui.custom
+package bunker.snowmanlabs.com.bunker.utils
 
 import android.content.Context
 import android.util.DisplayMetrics

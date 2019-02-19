@@ -13,11 +13,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import bunker.snowmanlabs.com.bunker.R
 import bunker.snowmanlabs.com.bunker.domain.SelfResult
 import bunker.snowmanlabs.com.bunker.di.Injectable
-import bunker.snowmanlabs.com.bunker.presentation.ui.ScanProcessActivity
-import bunker.snowmanlabs.com.bunker.presentation.ui.WorkingListener
 import bunker.snowmanlabs.com.bunker.presentation.ui.base.BaseViewModelFragment
 import bunker.snowmanlabs.com.bunker.utils.FaceDetector
 import com.otaliastudios.cameraview.CameraListener
@@ -28,20 +27,20 @@ import java.io.ByteArrayOutputStream
 import kotlin.reflect.KClass
 
 
-class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, WorkingListener {
+class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable {
 
 
     override fun getViewModel(): KClass<SelfViewModel> = SelfViewModel::class
 
     companion object {
-        @JvmStatic
-        fun newInstance() = SelfFragment()
-
         var isValid = false
     }
 
     private val TAG = "SelfFragment"
     private var isButtonHold = false
+
+    private var down: Long = 0
+    private var up: Long = 0
     private val timer = object : CountDownTimer(10000, 1000) {
 
         override fun onTick(millisUntilFinished: Long) {
@@ -60,8 +59,7 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
                 faceDetector?.process(it)
             }
         }
-    private var down: Long = 0
-    private var up: Long = 0
+
 
 
 
@@ -74,11 +72,12 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).actionBar?.hide()
-        self_fragment_camera_view.setLifecycleOwner(viewLifecycleOwner)
+
 
         setupCamera()
         setupObservers()
         setupListeners()
+        
 
     }
 
@@ -91,33 +90,18 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
 
 
 
-    //region WorkingListener -------------------------------------------------------------------------------------------
-    override fun requestingService(bitmap: Bitmap) {
-    }
-
-    override fun onError() {
-        Toast.makeText(activity!!, "Face not recognized. Try Again", Toast.LENGTH_LONG).show()
-    }
-
-    override fun stoppingService() {
-        Log.d(TAG, "stoppingService")
-        self_fragment_camera_view.clearFrameProcessors()
-
-    }
-    // endregion
-
-
-
-
     //region Setup() ---------------------------------------------------------------------------------------------------
     private fun setupCamera(){
+        self_fragment_camera_view.setLifecycleOwner(viewLifecycleOwner)
         self_fragment_camera_view.toggleFacing()
     }
 
     private fun setupObservers() {
         viewModel.command.observe(this, Observer {
             when(it){
-                is SelfViewModel.Command.SELFResult -> handleSelfResult(it.selfResult)
+                is SelfViewModel.Command.SelfSuccess -> handleSelfSuccess(it.selfResult)
+                is SelfViewModel.Command.SelfFailed -> handleSelfFailed(it.selfResult)
+                is SelfViewModel.Command.Error -> handleError(it.error)
             }
         })
         viewModel.state.observe(this, Observer {
@@ -146,11 +130,9 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
         self_fragment_camera_view.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
                 result.toBitmap{
-                    val baos = ByteArrayOutputStream()
-                    it!!.compress(Bitmap.CompressFormat.PNG, 100, baos)
-                    val byteArrayImage = baos.toByteArray()
-                    viewModel.sendSelf( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
-                    Log.d(TAG, "send")
+                    if(it != null){
+                        sendSelf(it!!)
+                    }
                 }
             }
         })
@@ -169,9 +151,8 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
         }
     }
 
-
-    private fun handleLoading(loading: Boolean) {
-        if (loading) {
+    private fun handleLoading(isLoading: Boolean) {
+        if (isLoading) {
             self_fragment_loading.visibility = View.VISIBLE
         } else {
             self_fragment_loading.visibility = View.GONE
@@ -182,16 +163,30 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
 
 
 
-    //region Private() -------------------------------------------------------------------------------------------------
-    private fun handleSelfResult(selfResult: SelfResult?) {
-        if (selfResult == null) {
-        } else {
-            (activity!! as ScanProcessActivity).handleSelfResult(selfResult)
-        }
+    //region Command ---------------------------------------------------------------------------------------------------
+    private fun handleSelfSuccess(selfResult: SelfResult) {
+        val action = SelfFragmentDirections.actionSelfFragmentToResultFragment()
+        findNavController().navigate(action)
     }
 
+    // todo: Nao continuar o fluxo
+    private fun handleSelfFailed(selfResult: SelfResult) {
+        val action = SelfFragmentDirections.actionSelfFragmentToResultFragment()
+        findNavController().navigate(action)
+    }
+
+    // todo: Nao continuar o fluxo
+    override fun handleError(throwable: Throwable) {
+        super.handleError(throwable)
+        val action = SelfFragmentDirections.actionSelfFragmentToResultFragment()
+        findNavController().navigate(action)
+    }
+    //endregion
 
 
+
+
+    //region Private ---------------------------------------------------------------------------------------------------
     private fun onButtonDown(){
         Log.d(TAG, "Down")
         isButtonHold = true
@@ -221,7 +216,15 @@ class SelfFragment : BaseViewModelFragment<SelfViewModel>(), Injectable, Working
                 Toast.makeText(activity!!,"Move your eyes and blink naturally.", Toast.LENGTH_LONG).show()
             }
         }
-
         isValid = false
     }
+
+    private fun sendSelf(bitmap: Bitmap){
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        val byteArrayImage = baos.toByteArray()
+        viewModel.sendSelf( Base64.encodeToString(byteArrayImage, Base64.DEFAULT))
+        Log.d(TAG, "send")
+    }
+    //endregion
 }

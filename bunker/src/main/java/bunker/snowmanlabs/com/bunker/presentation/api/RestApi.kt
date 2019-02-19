@@ -1,6 +1,6 @@
 package bunker.snowmanlabs.com.bunker.presentation.api
 
-import bunker.snowmanlabs.com.bunker.domain.CnhResult
+import bunker.snowmanlabs.com.bunker.domain.ScanResult
 import bunker.snowmanlabs.com.bunker.domain.ProcessRequest
 import bunker.snowmanlabs.com.bunker.domain.SelfResult
 import io.reactivex.Single
@@ -20,12 +20,12 @@ interface RestApi {
     fun getSessionId()
 
 //    @POST("cnh-flow")
-//    fun sendCnhPicture(@Body request: ProcessRequest): Single<CnhResult>
+//    fun sendScan(@Body request: ProcessRequest): Single<ScanResult>
 
     @POST("api/v1/process/doccheck")
     @Headers(
         "Authorization: Bearer 77C94157-753B-4B7E-8105-F012989E0531")
-    fun sendCnhPicture(@Body request: ProcessRequest): Single<CnhResult>
+    fun sendScan(@Body request: ProcessRequest): Single<ScanResult>
 
 //    @POST("face-checking")
 //    fun sendSelf(@Body request: SelfProcessRequest): Single<SelfResult>

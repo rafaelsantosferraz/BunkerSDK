@@ -2,15 +2,14 @@ package bunker.snowmanlabs.com.bunker.presentation.ui.self
 
 import bunker.snowmanlabs.com.bunker.domain.ProcessRequest
 import bunker.snowmanlabs.com.bunker.domain.SelfResult
-import bunker.snowmanlabs.com.bunker.presentation.api.RestApi
 import bunker.snowmanlabs.com.bunker.di.qualifiers.IO
 import bunker.snowmanlabs.com.bunker.di.qualifiers.UI
-import bunker.snowmanlabs.com.bunker.presentation.ui.ScanProcessViewModel
 import bunker.snowmanlabs.com.bunker.presentation.ui.base.BaseViewModel
+import bunker.snowmanlabs.com.bunker.presentation.ui.scan.ScanCnhViewModel
 import bunker.snowmanlabs.com.bunker.usecase.self.SendSelf
 import io.reactivex.Scheduler
-import java.security.InvalidKeyException
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SelfViewModel  @Inject constructor(
@@ -23,23 +22,14 @@ class SelfViewModel  @Inject constructor(
     override fun initialState() = State()
 
 
-    var mSessionId: String = ""
-
-
     private fun getSessionId(): String {
-        if (ScanProcessViewModel.mSessionId == null){
-            mSessionId = UUID.randomUUID().toString()
-        } else {
-            mSessionId = ScanProcessViewModel.mSessionId!!
-        }
-
-        return mSessionId
+        return ScanCnhViewModel.mSessionId
     }
 
 
-    //region sendSelf()
+    //region sendSelf() ------------------------------------------------------------------------------------------------
     fun sendSelf(convertImageToBase64: String?) {
-        newState(currentState().copy(loading = true, error = null))
+        newState(currentState().copy(loading = true))
         val request = ProcessRequest(
             sessionId = getSessionId(),
             codedImage = convertImageToBase64!!
@@ -51,16 +41,17 @@ class SelfViewModel  @Inject constructor(
     }
 
     private fun handleSelfResult(result: SelfResult) {
+        newState(currentState().copy(loading = false))
         if (result.data.isValid == "true"){
-            newState(currentState().copy(loading = false, error = null))
-            command.value = Command.SELFResult(result)
+            command.value = Command.SelfSuccess(result)
         }else{
-            newState(currentState().copy(loading = false, error = InvalidKeyException()))
+            command.value = Command.SelfFailed(result)
         }
     }
 
     private fun sendSelfHandleError(throwable: Throwable) {
-        newState(currentState().copy(loading = false, error = throwable))
+        newState(currentState().copy(loading = false))
+        command.value = Command.Error(throwable)
     }
     //endregion
 
@@ -68,13 +59,14 @@ class SelfViewModel  @Inject constructor(
 
 
     data class State(
-        val loading: Boolean = false,
-        val error: Throwable? = null)
+        val loading: Boolean = false)
 
 
 
 
     sealed class Command {
-        class SELFResult(val selfResult: SelfResult): Command()
+        class SelfSuccess(val selfResult: SelfResult): Command()
+        class SelfFailed(val selfResult: SelfResult): Command()
+        class Error(val error: Throwable): Command()
     }
 }

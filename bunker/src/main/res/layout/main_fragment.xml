@@ -10,6 +10,7 @@
 
 
     <ImageView
+            android:id="@+id/main_fragment_logo_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
@@ -19,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-            android:id="@+id/iv_icon"
+            android:id="@+id/main_fragment_icon_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_tela_principal"
@@ -30,7 +31,7 @@
 
 
     <Button
-            android:id="@+id/bt_ready"
+            android:id="@+id/main_fragment_start_bt"
             style="@style/Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

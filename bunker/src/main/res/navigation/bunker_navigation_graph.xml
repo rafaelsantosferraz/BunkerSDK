@@ -6,20 +6,30 @@
     <fragment android:id="@+id/mainFragment"
               android:name="bunker.snowmanlabs.com.bunker.presentation.ui.main.MainFragment"
               android:label="MainFragment">
-        <action android:id="@+id/action_mainFragment_to_resultFragment" app:destination="@id/resultFragment"/>
+        <action android:id="@+id/action_mainFragment_to_scanCnhFragment" app:destination="@id/scanCnhFragment"/>
+    </fragment>
+    <fragment android:id="@+id/scanCnhFragment"
+              android:name="bunker.snowmanlabs.com.bunker.presentation.ui.scan.ScanCnhFragment"
+              android:label="ScanCnhFragment">
+        <action android:id="@+id/action_scanCnhFragment_to_selfFragment" app:destination="@id/selfFragment"/>
+    </fragment>
+    <fragment android:id="@+id/selfFragment"
+              android:name="bunker.snowmanlabs.com.bunker.presentation.ui.self.SelfFragment"
+              android:label="SelfFragment">
+        <action android:id="@+id/action_selfFragment_to_resultFragment" app:destination="@id/resultFragment"/>
     </fragment>
     <fragment android:id="@+id/resultFragment"
               android:name="bunker.snowmanlabs.com.bunker.presentation.ui.result.ResultFragment"
               android:label="ResultFragment">
-        <argument android:name="dataNascimento" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="rg" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="nomeMae" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="categoria" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="cpf" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="nome" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="nomePai" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="primeiraHabilitacao" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="registro" app:argType="string" android:defaultValue='" "'/>
-        <argument android:name="validade" app:argType="string" android:defaultValue='" "'/>
+        <argument android:name="cpf" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="rg" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="nome" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="registro" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="validade" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="categoria" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="dataNascimento" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="nomeMae" app:argType="string" android:defaultValue=" "/>
+        <argument android:name="nomePai" app:argType="string" android:defaultValue=" "/>
+
     </fragment>
 </navigation>

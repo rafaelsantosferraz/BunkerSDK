@@ -7,18 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import bunker.snowmanlabs.com.bunker.R
-import bunker.snowmanlabs.com.bunker.di.Injectable
-import bunker.snowmanlabs.com.bunker.presentation.ui.base.BaseViewModelFragment
-import kotlinx.android.synthetic.main.activity_start.*
-import kotlin.reflect.KClass
+import bunker.snowmanlabs.com.bunker.presentation.ui.base.BaseFragment
+import kotlinx.android.synthetic.main.main_fragment.*
 
 
-class MainFragment : BaseViewModelFragment<MainFragmentViewModel>(), Injectable {
+class MainFragment : BaseFragment() {
 
 
 
 
-    // region Fragment superclass -------------------------------------------------------------------------
+    // region Fragment -------------------------------------------------------------------------------------------------
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.main_fragment, container, false)
 
@@ -30,21 +28,12 @@ class MainFragment : BaseViewModelFragment<MainFragmentViewModel>(), Injectable 
 
 
 
-    // BaseViewModelFragment -----------------------------------------------------------------------
-    override fun getViewModel(): KClass<MainFragmentViewModel> = MainFragmentViewModel::class
 
-
-
-
-    // region Setup --------------------------------------------------------------------------------
+    // region Setup ----------------------------------------------------------------------------------------------------
     private fun setupListeners(){
-        bt_ready.setOnClickListener {
-            //MainFragmentDirections.actionMainFragmentToFormFragment()
-            //val action = MainFragmentDirections.actionMainFragmentToFormFragment()
-//            action.pacienteCuidadoId = item.pacienteCuidado?.id!!.toString()
-//            action.previsto = item.previsto!!.toString()
-            //findNavController(this@MainFragment).navigate(action)
-            //startActivity(Intent(this, ScanProcessActivity::class.java))
+        main_fragment_start_bt.setOnClickListener {
+            val action = MainFragmentDirections.actionMainFragmentToScanCnhFragment()
+            findNavController(this@MainFragment).navigate(action)
         }
     }
     // endregion
